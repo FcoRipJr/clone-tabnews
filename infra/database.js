@@ -9,9 +9,14 @@ async function query(quryObject) {
     password: process.env.POSTGRES_PASSWORD,
   });
   await client.connect();
-  const result = await client.query(quryObject);
-  await client.end();
-  return result;
+  try {
+    const result = await client.query(quryObject);
+    return result;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.end();
+  }
 }
 
 export default {
