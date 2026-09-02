@@ -1,6 +1,7 @@
 async function get(request, response) {
   try {
-    const dados = req.method == "GET" ? request.query : await request.json();
+    const dados =
+      request.method == "GET" ? request.query : await request.json();
     console.log(dados);
     response.status(200).json({ status: true, request: dados });
   } catch (error) {
