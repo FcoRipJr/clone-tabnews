@@ -3,9 +3,8 @@ import orchestrator from "tests/orchestrator.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
+  await cleanDatabase();
 });
-
-beforeAll(cleanDatabase);
 
 async function cleanDatabase() {
   await database.query("drop schema public cascade; create schema public;");
