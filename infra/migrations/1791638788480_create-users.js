@@ -20,10 +20,11 @@ exports.up = (pgm) => {
       unique: true,
     },
 
-    // Reference: bcrypt limit is 72 bytes for password. https://stackoverflow.com/a/6832446
+    // Reference: bcrypt limit is 60 bytes for password. https://stackoverflow.com/a/6832446
     // https://security.stackexchange.com/a/39851
+    // https://www.npmjs.com/package/bcrypt#hash-info
     password: {
-      type: "varchar(72)",
+      type: "varchar(60)",
       notNull: true,
     },
 
@@ -31,14 +32,16 @@ exports.up = (pgm) => {
     created_at: {
       type: "timestamptz",
       notNull: true,
-      default: pgm.func("now()"),
+      default: pgm.func("timezone('utc', now())"),
     },
     updated_at: {
       type: "timestamptz",
       notNull: true,
-      default: pgm.func("now()"),
+      default: pgm.func("timezone('utc', now())"),
     },
   });
 };
 
-exports.down = false;
+exports.down = (pgm) => {
+  pgm.dropTable("users");
+};
